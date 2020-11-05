@@ -26,5 +26,6 @@ plt.legend(loc=(0.07, 0.05)) # coordinates pass on a tuple
 # plt.legend(loc=('lower left'))
 
 plt.title("My Awesome Stack Plot")
+plt.xlabel('Hours')
 plt.tight_layout()
 plt.show()
