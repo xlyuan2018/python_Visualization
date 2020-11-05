@@ -3,16 +3,15 @@ from matplotlib import pyplot as plt
 import pandas as pd
 import requests
 
-df = pd.read_csv('../ETH_1h.csv')
+df = pd.read_csv('ETH_1h.csv')
 print(df.shape)
 
 # # create a function to parse the date format
 # d_parser = lambda x: pd.datetime.strptime(x, '%Y-%m-%d %I-%p')
 # # use parse function to change the date format while reading csv data
-# df = pd.read_csv('../ETH_1h.csv', parse_dates=['Date'], date_parser = d_parser)
+# df = pd.read_csv('ETH_1h.csv', parse_dates=['Date'], date_parser = d_parser)
 # print(df.shape)
 
-df['Date'] = pd.to_datetime(df['Date'], format='%Y-%m-%d %I-%p')
 
 
 # print(df.loc[0, 'Date'].day_name())
@@ -45,12 +44,18 @@ print(df.loc['2020-01-01']['High'].max())
 highs = df['High'].resample('M').max()
 highs.plot()
 
-# print(df.resample('W').max())
+# aggregation on multiple columns
 print(df.resample('W').agg({'High': 'max', 'Low': 'min', 'Open': 'mean', 'Close': 'mean', 'Volume': 'mean'}))
 
 df1 = df.resample('W').agg({'High': 'max', 'Low': 'min', 'Open': 'mean', 'Close': 'mean'})
+df1 = df1.rename(columns={
+    'High': 'high_max',
+    'Low': 'low_min',
+    'Open': 'open_mean',
+    'Close': 'close_mean'
+})
+print(df1.head(3))
 df1.plot()
-
 
 plt.tight_layout()
 plt.show()
